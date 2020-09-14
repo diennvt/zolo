@@ -1,0 +1,128 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    background-color: #ffffff;
+    color: #5a5a5a;
+    font-family: 'Lato', sans-serif;
+    font-size: 20px;
+    text-rendering: optimizeLegibility;
+}
+
+.full-screen{
+    display: block;
+    max-width: 100vw !important;
+    background: #fff;
+    padding: 0;
+    margin: 0;
+}
+
+.logo{
+    position: relative;
+    display: block;
+    text-align: center;
+    margin-top: 10px;
+    color: #ff5a77;
+    font-size: 1.4rem;
+    font-weight: 600;
+    height: 55px;
+}
+
+.carousel{
+    /* min-width: 100vw; */
+}
+
+.carousel-indicators{
+    bottom: -15px;
+}
+.carousel-indicators li{
+    background-color: #fff;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    opacity: 1;
+}
+
+.carousel-indicators li.active{
+    background-color: #ff5a77;
+}
+
+.w-100{
+    height: 50vh;
+}
+
+#helloPage .group-btn{
+    display: block;
+    height: 30vh;
+}
+#helloPage .main{
+    position: relative;
+}
+.group-btn button{
+  margin: 0;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  -ms-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+  width: 60%;
+  height: 45px;
+  border-radius: 50px;
+  border: 0;
+  font-size: 0.7rem;
+  font-weight: 600;
+  outline:none;
+}
+
+.group-btn button#btnLogin{
+    top: 35%;
+    background:#ff5a77;
+    color: #fff;
+}
+
+.group-btn button#btnRegister{
+    top: 65%;
+    background:#c7c7c7
+}
+
+.footer{
+    display: block;
+    position: relative;
+    height: 10vh;
+}
+.footer ul.group-language{
+    text-align: center;
+}
+.footer ul.group-language li.item-language {
+    display: inline;
+    text-decoration: none;
+    line-height: 10vh;
+    font-size: 0.7rem;
+    font-weight: 600;
+    margin: 0 7px;
+}
+.footer ul.group-language li.item-language.active {
+    
+    padding-bottom: 2px;
+    border-bottom: 1px solid black;
+}
+
+.footer ul.group-language li.item-language:first-child{
+    margin-left: 0;
+}
+
+.btn-back{
+    position: absolute;
+    left: 20px;
+    font-size: 1.8rem;
+}
+
+.arrow.left {
+    transform: rotate(135deg);
+    -webkit-transform: rotate(135deg);
+  }
+
+
