@@ -128,7 +128,28 @@
           $('#registerPage').show();
       }
 
-      function back(page){
-        $('.full-screen').hide();
-        $('#'+page).show();
+      function back(self, page){
+        var current_page = $(self).closest('.full-screen');
+        current_page.css('left', '2000px');
+        current_page.css('animation', 'back 2s');
+       setTimeout(function(){ 
+          $('.full-screen').hide();
+          $('#'+page).show(); 
+          current_page.css('left', '');
+          current_page.css('animation', '');
+        }, 400);
       }
+
+      function next(self, page){
+        var current_page = $(self).closest('.full-screen');
+        current_page.css('right', '2000px');
+        current_page.css('animation', 'next 2s');
+        setTimeout(function(){ 
+           $('.full-screen').hide();
+           $('#'+page).show(); 
+           current_page.css('right', '');
+           current_page.css('animation', '');
+         }, 400);
+       }
+    
+    
