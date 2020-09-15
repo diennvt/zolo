@@ -118,9 +118,25 @@
         });
       }
 
-      function chooseLanguage(self){
-          $('.item-language').removeClass('active')
+      function chooseLanguage(self, language){
+        $('.item-language').removeClass('active')
         $(self).addClass('active');
+        var arr_languages = {"button-login":{"vi": "Đăng nhập", "en": "Login", "cn": "登录"}, 
+                            "button-register":{"vi": "Đăng ký", "en": "Register", "cn": "注册"},
+                            "title-register":{"vi": "Tạo tài khoản", "en": "Create account", "cn": "创建帐号"},
+                            "placeholder-fullname":{"vi": "Tên đầy đủ", "en": "Full name", "cn": "全名"},
+                            "placeholder-phonenumber":{"vi": "Nhập số điện thoại", "en": "Enter your phone number", "cn": "输入你的电话号码"}
+                          };
+        $("[data-languages]").each(function(){
+            var object = $(this).data('languages');
+            var type_objext = $('[data-languages|="'+object+'"]')[0].nodeName;
+            var value = arr_languages[object][language];
+            if(type_objext == 'BUTTON' || type_objext == 'SPAN'){
+              $('[data-languages|="'+object+'"]').text(value);
+            } else if(type_objext == 'INPUT'){
+              $('[data-languages|="'+object+'"]').attr("placeholder", value);  
+            }
+        });
       }
 
       function nextToRegister(){

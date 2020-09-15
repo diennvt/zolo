@@ -77,15 +77,15 @@
     </div>
     <div class="main">
       <div class="group-btn">
-        <button type="button" id="btnLogin">ĐĂNG NHẬP</button>
-        <button type="button" id="btnRegister" onclick="next(this, 'registerPage1')">ĐĂNG KÝ</button>
+        <button type="button" id="btnLogin" data-languages="button-login">ĐĂNG NHẬP</button>
+        <button type="button" id="btnRegister" data-languages="button-register" onclick="next(this, 'registerPage1')">ĐĂNG KÝ</button>
       </div>
     </div>
     <div class="footer">
       <ul class="group-language">
-        <li class="item-language active" onclick="chooseLanguage(this)">Tiếng Việt</li>
-        <li class="item-language" onclick="chooseLanguage(this)">English</li>
-        <li class="item-language" onclick="chooseLanguage(this)">中文</li>
+        <li class="item-language active" onclick="chooseLanguage(this, 'vi')" >Tiếng Việt</li>
+        <li class="item-language" onclick="chooseLanguage(this, 'en')">English</li>
+        <li class="item-language" onclick="chooseLanguage(this, 'cn')">中文</li>
       </ul>
     </div>
   </div>
@@ -99,26 +99,28 @@
   </div>
   <div id="registerPage1" class="registerPage full-screen" style="display: none">
     <div class="header">
-      <img src="./images/back.svg" class="btn-back" alt="" onclick="back(this, 'helloPage')"> Tạo tài khoản
+      <img src="./images/back.svg" class="btn-back" alt="" onclick="back(this, 'helloPage')"> <span data-languages="title-register">Tạo tài khoản<span>
       <!-- <i class="fa fa-long-arrow-left btn-back" onclick="back('helloPage')"></i> Tạo tài khoản -->
     </div>
     <div class="zolo-content">
-      <input type="text" class="zolo-input" placeholder="Tên đầy đủ" name="fullname" value="" autocomplete="off" />
+      <input type="text" class="zolo-input" placeholder="Tên đầy đủ" data-languages="placeholder-fullname" name="fullname" value="" autocomplete="off" />
       <i class="btn-next" alt="" onclick="next(this, 'registerPage2')"></i>
       <!-- <i class="fa fa-arrow-circle-right btn-next"></i> -->
     </div>
   </div>
   <div id="registerPage2" class="registerPage full-screen" style="display: none">
     <div class="header">
-      <img src="./images/back.svg" class="btn-back" alt="" onclick="back(this, 'registerPage1')"> Tạo tài khoản
+      <img src="./images/back.svg" class="btn-back" alt="" onclick="back(this, 'registerPage1')"> <span data-languages="title-register">Tạo tài khoản</span>
       <!-- <i class="fa fa-long-arrow-left btn-back" onclick="back('helloPage')"></i> Tạo tài khoản -->
     </div>
     <div class="zolo-content">
-      <input type="number" class="zolo-input" placeholder="Nhập số điện thoại" name="phonenumber" value="" autocomplete="off" />
+      <input type="number" class="zolo-input" placeholder="Nhập số điện thoại" data-languages="placeholder-phonenumber" name="phonenumber" value="" autocomplete="off" />
       <i class="btn-next" alt="" onclick="next(this, 'registerPage2')"></i>
+      
       <!-- <i class="fa fa-arrow-circle-right btn-next"></i> -->
     </div>
   </div>
+ 
   <div id="createChatRoomPage" style="display: none">
     <h1>Create chat room</h1>
     <form autocomplete="off">
@@ -128,6 +130,8 @@
   </div>
 
   <script>
+    
+
     $(".carousel").carousel({
       //interval: 1
     })
