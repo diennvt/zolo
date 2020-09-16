@@ -1,15 +1,19 @@
- // Your web app's Firebase configuration
- // For Firebase JS SDK v7.20.0 and later, measurementId is optional
- var firebaseConfig = {
-     apiKey: 'AIzaSyCpZX_9ycBgituf2VvTksMPlsZEIKUTg6I',
-     authDomain: 'realtimechatroom-f2e99.firebaseapp.com',
-     databaseURL: 'https://realtimechatroom-f2e99.firebaseio.com',
-     projectId: 'realtimechatroom-f2e99',
-     storageBucket: 'realtimechatroom-f2e99.appspot.com',
-     messagingSenderId: '95831065723',
-     appId: '1:95831065723:web:58c9bf8204c0d760a20ede',
-     measurementId: 'G-Z7KY2K9QRK'
- };
+// Your web app's Firebase configuration
+var firebaseConfig = {
+    apiKey: 'AIzaSyCpZX_9ycBgituf2VvTksMPlsZEIKUTg6I',
+    authDomain: 'realtimechatroom-f2e99.firebaseapp.com',
+    databaseURL: 'https://realtimechatroom-f2e99.firebaseio.com',
+    projectId: 'realtimechatroom-f2e99',
+    storageBucket: 'realtimechatroom-f2e99.appspot.com',
+    messagingSenderId: '95831065723',
+    appId: '1:95831065723:web:58c9bf8204c0d760a20ede',
+    measurementId: 'G-Z7KY2K9QRK'
+};
+
+// Initialize Firebase
+firebase.initializeApp(firebaseConfig);
+firebase.analytics();
+firebase.messaging();
 
  function md5(str) {
      var str = CryptoJS.MD5(str).toString();
@@ -20,7 +24,7 @@
      document.getElementById(form_id).reset();
  }
 
- function createCartToken(length) {
+ function createToken(length) {
      var result = '';
      var characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
      var charactersLength = characters.length;
@@ -29,6 +33,16 @@
      }
      return result;
  }
+
+ function createOTP(length) {
+    var result = '';
+    var characters = '0123456789';
+    var charactersLength = characters.length;
+    for (var i = 0; i < length; i++) {
+        result += characters.charAt(Math.floor(Math.random() * charactersLength));
+    }
+    return result;
+}
 
  function setCookie(name, value, days) {
      var expires = '';
@@ -54,42 +68,99 @@
  function eraseCookie(name) {
      document.cookie = name + '=; Path=/; Expires=Thu, 01 Jan 1970 00:00:01 GMT;';
  }
- // Initialize Firebase
- firebase.initializeApp(firebaseConfig);
- firebase.analytics();
- firebase.messaging();
 
-
- function register() {
-     var fullname = document.getElementById('fullname').value;
-     var username = document.getElementById('username').value;
-     var password = document.getElementById('password').value;
-     var encode_pw = md5(password);
-     var users = firebase.database().ref('/users/' + username);
-     users.once('value').then(function(snapshot) {
-         //console.log(snapshot.val().username)
-         var check_username = (snapshot.val() && snapshot.val().username) || null;
-         if (check_username == null) {
-             users.set({
-                 'full_name': fullname,
-                 'username': username,
-                 'password': encode_pw,
-                 'token': ''
-             });
-             alert('register success');
-             clearForm('register_form');
-         } else {
-             alert('this username was registered');
-         }
-     });
+ function register(self, page, step) {
+    var fullname = $('input[name="fullname"]').val();
+    var phonenumber = $('input[name="phonenumber"]').val();
+    var otp = createOTP(6);
+    var input_otp = $('input[name="otp"]').val();
+    var id = md5(phonenumber.toString() + otp.toString());
+    var users = firebase.database().ref('/users/' + phonenumber);
+    if(step == 'go_to_register'){
+        window.setTimeout(function (){
+            $('input[name="fullname"]').focus();
+        }, 500);    
+        next(self, page);
+    } else if(step == 'write_name'){
+        window.setTimeout(function (){
+            $('input[name="phonenumber"]').focus();  
+        }, 500); 
+        if(!fullname){
+            alert('please enter your name');
+            $('input[name="fullname"]').focus();
+            return false;
+        } else {
+            next(self, page);
+        }
+    } else if(step == 'send_otp'){
+        // window.setTimeout(function (){
+        //     $('input[name="otp"]').focus();
+        // }, 500);
+        if(!phonenumber){
+            alert('please enter your phone number');
+            $('input[name="phonenumber"]').focus();  
+            return false;
+        }
+        users.once('value').then(function(snapshot) {
+            //console.log(snapshot.val().username)
+            //var check_phonenumber = (snapshot.val() && snapshot.val().phonenumber) || null;
+            var phonenumber2 = (snapshot.val() && snapshot.val().phonenumber) || null;
+            var otp2 = (snapshot.val() && snapshot.val().otp) || null;
+            var confirm = (snapshot.val() && snapshot.val().confirm) || null;
+            if (phonenumber == phonenumber2 && confirm == 'y') {
+                alert('this phonenumber was registered');
+            } else {
+                users.set({
+                    'fullname': fullname,
+                    'phonenumber': phonenumber,
+                    'otp': otp,
+                    'confirm': ''
+                });
+                alert("otp code: " + otp);
+                next(self, page);
+                var interval =  setInterval(function(){ 
+                        $('input[name="otp"]').focus(); 
+                        if($('#registerPage3').css('display') == 'block'){
+                            clearInterval(interval);
+                        }
+                    }, 1);
+            }
+        });
+     } else if(step == 'register'){
+        if(!input_otp){
+            alert('please enter otp code');
+            return false;
+        }
+        users.once('value').then(function(snapshot) {
+            //console.log(snapshot.val().username)
+            var phonenumber2 = (snapshot.val() && snapshot.val().phonenumber) || null;
+            var otp2 = (snapshot.val() && snapshot.val().otp) || null;
+            if (input_otp == otp2 && phonenumber == phonenumber2) {
+                users.set({
+                    'fullname': fullname,
+                    'phonenumber': phonenumber,
+                    'otp': otp2,
+                    'confirm': 'y'
+                });
+                alert("register complete");
+                next(self, page);
+                $('input').val('');
+            } else if (input_otp == otp2){
+                alert('otp wrong');
+            } else {
+                alert("register failed");
+            }
+        });
+     }
+     
  }
 
  function login() {
      var username = document.getElementById('login_username').value;
      var password = document.getElementById('login_password').value;
      var encode_pw = md5(password);
-     var users = firebase.database().ref('/users/' + username);
-     var token = createCartToken(32);
+     var users = firebase.database().ref('/users/' + phonenumber);
+     var token = createToken(32);
      users.once('value').then(function(snapshot) {
          var check_full_name = (snapshot.val() && snapshot.val().full_name) || null;
          var check_username = (snapshot.val() && snapshot.val().username) || null;
@@ -116,7 +187,7 @@
      var room_name = document.getElementById('room_name').value;
      //console.log(message)
      firebase.database().ref('room').set({
-         'room_id': createCartToken(32),
+         'room_id': createToken(32),
          'room_name': room_name,
          'messages': ['hello', 'hi']
      });
@@ -171,4 +242,5 @@
          current_page.css('right', '');
          current_page.css('animation', '');
      }, 400);
+
  }

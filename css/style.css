@@ -148,12 +148,14 @@ body {
     -webkit-transform: rotate(135deg);
 }
 
+.loginPage .zolo-content,
 .registerPage .zolo-content {
     position: relative;
     text-align: center;
     margin-top: 45px;
 }
 
+.loginPage .zolo-input,
 .registerPage .zolo-input {
     border: 0;
     outline: 0;
@@ -161,6 +163,7 @@ body {
     width: 90%;
 }
 
+.loginPage .btn-next:before,
 .registerPage .btn-next:before {
     content: "";
     background: url("../images/next.svg") no-repeat center bottom/cover;
@@ -176,6 +179,7 @@ body {
     z-index: 1;
 }
 
+.loginPage .btn-next:after,
 .registerPage .btn-next:after {
     content: "";
     position: absolute;
@@ -187,6 +191,9 @@ body {
     border-radius: 50%;
 }
 
+.loginPage .zolo-input{
+    margin-bottom: 20px;
+}
 @media screen and (max-width: 350px) {
     .footer {
         padding-top: 0;
