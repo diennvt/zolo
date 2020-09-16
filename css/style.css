@@ -39,7 +39,7 @@ body {
     line-height: 50px;
 }
 
-.header.logo{
+.header.logo {
     color: #ff5a77;
     background: #fff;
     font-size: 1.4rem;
@@ -138,8 +138,8 @@ body {
 .btn-back {
     position: absolute;
     line-height: 50px;
-    width: 30px;
-    margin-top: 12px;
+    width: 26px;
+    margin-top: 15px;
     left: 14px;
 }
 
@@ -148,20 +148,20 @@ body {
     -webkit-transform: rotate(135deg);
 }
 
-.registerPage .zolo-content{
+.registerPage .zolo-content {
     position: relative;
     text-align: center;
     margin-top: 45px;
 }
 
-.registerPage .zolo-input{
+.registerPage .zolo-input {
     border: 0;
     outline: 0;
     border-bottom: 1px solid #ff5a77;
     width: 90%;
 }
 
-.registerPage .btn-next:before{
+.registerPage .btn-next:before {
     content: "";
     background: url("../images/next.svg") no-repeat center bottom/cover;
     position: absolute;
@@ -174,10 +174,9 @@ body {
     width: 50px;
     height: 50px;
     z-index: 1;
-    
 }
 
-.registerPage .btn-next:after{
+.registerPage .btn-next:after {
     content: "";
     position: absolute;
     margin-top: 60px;
@@ -186,9 +185,7 @@ body {
     background: #ff5a77;
     right: 5vw;
     border-radius: 50%;
-    
 }
-
 
 @media screen and (max-width: 350px) {
     .footer {
@@ -206,11 +203,19 @@ body {
 }
 
 @keyframes back {
-    from {left: 0px;}
-    to {left: 2000px;}
-  }
+    from {
+        left: 0px;
+    }
+    to {
+        left: 2000px;
+    }
+}
 
 @keyframes next {
-from {right: 0px;}
-to {right: 2000px;}
+    from {
+        right: 0px;
+    }
+    to {
+        right: 2000px;
+    }
 }
