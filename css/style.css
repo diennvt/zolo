@@ -191,9 +191,17 @@ body {
     border-radius: 50%;
 }
 
-.loginPage .zolo-input{
+.zolo-form .zolo-input {
     margin-bottom: 20px;
 }
+
+.zolo-form .zolo-input {
+    margin-bottom: 20px;
+}
+
+.zolo-form .btn-next:before,
+.zolo-form .btn-next:after {}
+
 @media screen and (max-width: 350px) {
     .footer {
         padding-top: 0;
@@ -225,4 +233,181 @@ body {
     to {
         right: 2000px;
     }
+}
+
+
+/* hide - show input password */
+
+.Form {
+    width: 100%;
+    max-width: 400px;
+    margin: auto;
+}
+
+.Form-title {
+    color: #00386a;
+    margin: 0 0 15px;
+}
+
+.Form-description {
+    color: rgba(109, 102, 101, 50);
+}
+
+.Form-fields {
+    border-radius: 15px;
+    border: 1px solid #c5c1c0;
+    background-color: #fff;
+    display: flex;
+    flex-direction: column;
+    padding: 24px 15px;
+}
+
+.Control-label {
+    color: #423e3d;
+    font-weight: bold;
+    transition: color 300ms ease;
+}
+
+.Control-requirements {
+    background: pink;
+    border-top: none;
+    margin: -14px 0 15px;
+    max-height: 0;
+    overflow: hidden;
+    transition: all 200ms ease;
+    padding: 0 9px;
+}
+
+.ControlInput:invalid:not(:focus):not(:placeholder-shown) {
+    border-color: red;
+}
+
+.ControlInput:invalid:not(:focus):not(:placeholder-shown)+.Control-label {
+    color: red;
+}
+
+.ControlInput:invalid:not(:focus):not(:placeholder-shown)+.Control-label+.Control-requirements {
+    max-height: 100px;
+    padding: 9px;
+    border: 1px solid red;
+}
+
+.Control-requirements--email,
+.ControlInput--email {
+    order: -1;
+}
+
+.Control-label--email {
+    order: -2;
+}
+
+.Control-label--password {
+    order: -1;
+    margin-bottom: -32px;
+}
+
+.Control-label--showPassword,
+.Control-label--showRePassword {
+    width: 32px;
+    position: absolute;
+    top: -2px;
+    right: 5vw;
+    text-align: right;
+    margin-left: -36px;
+    cursor: pointer;
+}
+
+.Control-label--showRePassword {
+    margin-top: 50px;
+}
+
+.ControlInput--email:valid~.input-password:valid,
+.ControlInput--email:valid~.input-repassword:valid {
+    cursor: pointer;
+    pointer-events: auto;
+    opacity: 1;
+}
+
+.Button-spinner {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    margin-left: -13px;
+    margin-top: -13px;
+    opacity: 0;
+}
+
+.show-password,
+.show-repassword {
+    display: none;
+}
+
+.show-password:checked~.input-password,
+.show-repassword:checked~.input-repassword {
+    text-security: disc;
+    -webkit-text-security: disc;
+    -moz-text-security: disc;
+}
+
+.show-password:checked~.Control-label--showPassword .svg-toggle-password .closed-eye,
+.show-repassword:checked~.Control-label--showRePassword .svg-toggle-repassword .closed-eye-2 {
+    opacity: 1;
+    transition: opacity 300ms ease, height 400ms ease;
+    width: 4px;
+    height: 44px;
+}
+
+.svg-toggle-password,
+.svg-toggle-repassword {
+    fill: #ff5a77;
+}
+
+.svg-toggle-password .closed-eye,
+.svg-toggle-repassword .closed-eye-2 {
+    opacity: 0;
+    height: 0;
+}
+
+@keyframes dash {
+    0% {
+        stroke-dashoffset: 0;
+        stroke-dasharray: 150.6 100.4;
+    }
+    50% {
+        stroke-dasharray: 1 250;
+    }
+    100% {
+        stroke-dashoffset: 502;
+        stroke-dasharray: 150.6 100.4;
+    }
+}
+
+@keyframes spinner-in {
+    0% {
+        opacity: 0;
+    }
+    20%,
+    80% {
+        opacity: 1;
+    }
+    100% {
+        opacity: 0;
+    }
+}
+
+
+/* hide - show input password */
+
+.resend-text {
+    display: block;
+    position: absolute;
+    width: 90%;
+    text-align: left;
+    left: 5vw;
+    margin-top: 30px;
+    font-size: 0.8rem;
+}
+
+.resend-time {
+    color: #ff5a77
 }
