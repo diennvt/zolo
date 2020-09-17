@@ -1,19 +1,3 @@
-// Your web app's Firebase configuration
-var firebaseConfig = {
-    apiKey: 'AIzaSyCpZX_9ycBgituf2VvTksMPlsZEIKUTg6I',
-    authDomain: 'realtimechatroom-f2e99.firebaseapp.com',
-    databaseURL: 'https://realtimechatroom-f2e99.firebaseio.com',
-    projectId: 'realtimechatroom-f2e99',
-    storageBucket: 'realtimechatroom-f2e99.appspot.com',
-    messagingSenderId: '95831065723',
-    appId: '1:95831065723:web:58c9bf8204c0d760a20ede',
-    measurementId: 'G-Z7KY2K9QRK'
-};
-
-// Initialize Firebase
-firebase.initializeApp(firebaseConfig);
-firebase.analytics();
-firebase.messaging();
 
 function md5(str) {
     var str = CryptoJS.MD5(str).toString();
@@ -72,7 +56,6 @@ function eraseCookie(name) {
 function register(self, page, step) {
     var fullname = $('input[name="fullname"]').val();
     var phonenumber = $('input[name="phonenumber"]').val();
-    var otp = createOTP(6);
     var input_otp = $('input[name="otp"]').val();
     var password = $('input[name="password"]').val();
     var re_password = $('input[name="re_password"]').val();
@@ -103,10 +86,7 @@ function register(self, page, step) {
             return false;
         }
         users.once('value').then(function(snapshot) {
-            //console.log(snapshot.val().username)
-            //var check_phonenumber = (snapshot.val() && snapshot.val().phonenumber) || null;
             var phonenumber_ = (snapshot.val() && snapshot.val().phonenumber) || null;
-            var otp_ = (snapshot.val() && snapshot.val().otp) || null;
             var confirm = (snapshot.val() && snapshot.val().confirm) || null;
             if (phonenumber == phonenumber_ && confirm == 'y') {
                 alert('this phonenumber was registered');
@@ -114,10 +94,11 @@ function register(self, page, step) {
                 users.set({
                     'fullname': fullname,
                     'phonenumber': phonenumber,
-                    'otp': otp,
+                    'otp': '',
                     'confirm': ''
                 });
-                alert("otp code: " + otp);
+                phoneAuth();
+                //alert("otp code: " + otp);
                 if (page) {
                     next(self, page);
                 }
@@ -157,17 +138,19 @@ function register(self, page, step) {
         users.once('value').then(function(snapshot) {
             //console.log(snapshot.val().username)
             var phonenumber_ = (snapshot.val() && snapshot.val().phonenumber) || null;
-            var otp_ = (snapshot.val() && snapshot.val().otp) || null;
-            if (input_otp == otp_ && phonenumber == phonenumber_) {
-                users.set({
-                    'fullname': fullname,
-                    'phonenumber': phonenumber,
-                    'otp': otp_,
-                    'confirm': 'y'
+            console.log(phonenumber + '|' + phonenumber_)
+            if (phonenumber == phonenumber_) {
+                coderesult.confirm(input_otp).then(function (result) {
+                    users.set({
+                        'fullname': fullname,
+                        'phonenumber': phonenumber,
+                        'otp': input_otp,
+                        'confirm': 'y'
+                    });
+                    next(self, page);
+                }).catch(function (error) {
+                    alert("register failed");
                 });
-                next(self, page);
-            } else if (input_otp == otp_) {
-                alert('otp wrong');
             } else {
                 alert("register failed");
             }
