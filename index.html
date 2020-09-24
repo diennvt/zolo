@@ -26,7 +26,6 @@
     <script src="https://www.gstatic.com/firebasejs/7.20.0/firebase-messaging.js"></script>
     <script src="./js/script.js"></script>
     <link rel="stylesheet" href="./css/style.css">
-    <link rel="stylesheet" href="./css/hide_pw.scss">
 </head>
 
 <body>
@@ -84,8 +83,8 @@
         </div>
         <div class="main">
             <div class="group-btn">
-                <button type="button" id="btnLogin" data-languages="login" onclick="next(this, 'loginPage')">ĐĂNG
-                    NHẬP</button>
+                <!-- <button type="button" id="btnLogin" data-languages="login" btn-type="confirm" action="check_data" onclick="open_popup(this)">ĐĂNG NHẬP</button> -->
+                <button type="button" id="btnLogin" data-languages="login" onclick="next(this, 'loginPage')">ĐĂNG NHẬP</button>
                 <button type="button" id="btnRegister" data-languages="register"
                     onclick="register(this, 'registerPage1', 'go_to_register')">ĐĂNG KÝ</button>
             </div>
@@ -129,7 +128,7 @@
         </div>
         <div class="zolo-content">
             <input type="text" class="zolo-input" placeholder="Nhập số điện thoại" data-languages="enter-phonenumber"
-                name="phonenumber" value="" autocomplete="off" />
+                name="phonenumber" value="" autocomplete="off" onkeydown="javascript: return event.keyCode == 69 ? false : true" maxlength="10"  oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);"/>
             <div id="recaptcha-container"></div>
             <i class="btn-next" alt="" onclick="register(this, 'registerPage3', 'send_otp')"></i>
         </div>
@@ -197,6 +196,19 @@
             <button type="button" onclick="createRoom();">Create room</button>
         </form>
     </div>
+
+
+    <div class="zolo-popup" role="alert">
+        <div class="zolo-popup-container">
+            <span class="zolo-popup-header">Chú ý</span>
+            <p>Bạn có chắc không?</p>
+            <ul class="zolo-buttons">
+                <li><button type="button" id="btn-ignore">Không</button></li>
+                <li><button type="button" id="btn-confirm">Có</button></li>
+            </ul>
+        </div>
+    </div>
+
 
     <script>
         // Your web app's Firebase configuration

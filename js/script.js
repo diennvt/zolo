@@ -1,3 +1,14 @@
+var arr_languages = {
+    "login": { "vi": "Đăng nhập", "en": "Login", "cn": "登录" },
+    "register": { "vi": "Đăng ký", "en": "Register", "cn": "注册" },
+    "create-register": { "vi": "Tạo tài khoản", "en": "Create account", "cn": "创建帐号" },
+    "full-name": { "vi": "Tên đầy đủ", "en": "Full name", "cn": "全名" },
+    "enter-phonenumber": { "vi": "Nhập số điện thoại", "en": "Enter your phone number", "cn": "输入你的电话号码" },
+    "invalid-fullname": { "vi": "Tên không hợp lệ", "en": "Invalid fullname", "cn": "输入你的电话号码" },
+    "empty-fullname": { "vi": "Vui lòng nhập tên", "en": "Please enter fullname", "cn": "输入你的电话号码" },
+    "empty-phonenumber": { "vi": "Vui lòng nhập số điện thoại", "en": "Please enter phone number", "cn": "输入你的电话号码" },
+    "invalid-phonenumber": { "vi": "Số điện thoại không hợp lệ", "en": "Invalid phone number", "cn": "输入你的电话号码" },
+};
 
 function md5(str) {
     var str = CryptoJS.MD5(str).toString();
@@ -70,8 +81,10 @@ function register(self, page, step) {
             $('input[name="phonenumber"]').focus();
         }, 500);
         if (!fullname) {
-            alert('please enter your name');
-            $('input[name="fullname"]').focus();
+            open_popup(null, 'empty-fullname', 'fullname');
+            return false;
+        } else if(!fullname.match(/^[a-zA-ZÀÁÂÃÈÉÊÌÍÒÓÔÕÙÚĂĐĨŨƠàáâãèéêìíòóôõùúăđĩũơƯĂẠẢẤẦẨẪẬẮẰẲẴẶẸẺẼỀỀỂẾưăạảấầẩẫậắằẳẵặẹẻẽềềểếỄỆỈỊỌỎỐỒỔỖỘỚỜỞỠỢỤỦỨỪễệỉịọỏốồổỗộớờởỡợụủứừỬỮỰỲỴÝỶỸửữựỳỵỷỹ\s|_]+$/)) {
+            open_popup(null, 'invalid-fullname', 'fullname');
             return false;
         } else {
             next(self, page);
@@ -81,8 +94,11 @@ function register(self, page, step) {
         //     $('input[name="otp"]').focus();
         // }, 500);
         if (!phonenumber) {
-            alert('please enter your phone number');
-            $('input[name="phonenumber"]').focus();
+            open_popup(null, 'empty-phonenumber', 'phonenumber');
+            return false;
+        /*} else if(phonenumber.toString().substring(0, 1) != '0' || !phonenumber.match(/^[0-9]*$/) || phonenumber.length > 11 || phonenumber.length < 10){*/
+        } else if(!phonenumber.match(/((09|03|07|08|05)+([0-9]{8})\b)/g)){
+            open_popup(null, 'invalid-phonenumber', 'phonenumber');
             return false;
         }
         users.once('value').then(function(snapshot) {
@@ -106,12 +122,17 @@ function register(self, page, step) {
                 $('.resend-text').html('');
                 $('.resend-text').html('Gửi lại mã xác nhận sau <span class="resend-time">59</span> giây');
                 $('.resend-text').css('color', '');
+                
 
 
-                var interval = setInterval(function() {
+                var interval = setTimeout(function() {
+                    if ($('#registerPage3').css('display') == 'block') {
+                        clearInterval(interval);
+                        count_time();
+                        console.log(32132131)
+                    }
                     $('input[name="otp"]').focus();
-                    var time = 3;
-
+                    var time = 59;
                     function count_time() {
                         var timer = setInterval(function() {
                             $('.resend-time').text(time--);
@@ -123,10 +144,7 @@ function register(self, page, step) {
                             }
                         }, 1000);
                     }
-                    if ($('#registerPage3').css('display') == 'block') {
-                        count_time();
-                        clearInterval(interval);
-                    }
+                    
                 }, 1);
             }
         });
@@ -237,13 +255,7 @@ function createRoom() {
 function chooseLanguage(self, language) {
     $('.item-language').removeClass('active')
     $(self).addClass('active');
-    var arr_languages = {
-        "login": { "vi": "Đăng nhập", "en": "Login", "cn": "登录" },
-        "register": { "vi": "Đăng ký", "en": "Register", "cn": "注册" },
-        "create-register": { "vi": "Tạo tài khoản", "en": "Create account", "cn": "创建帐号" },
-        "full-name": { "vi": "Tên đầy đủ", "en": "Full name", "cn": "全名" },
-        "enter-phonenumber": { "vi": "Nhập số điện thoại", "en": "Enter your phone number", "cn": "输入你的电话号码" }
-    };
+   
     $("[data-languages]").each(function() {
         var object = $(this).data('languages');
         var type_objext = $('[data-languages|="' + object + '"]')[0].nodeName;
@@ -285,3 +297,64 @@ function next(self, page) {
     }, 400);
 
 }
+
+
+    //open popup
+    function open_popup(e, data_language, focus){
+        if($(e).attr("btn-type") == 'confirm'){
+            $('#btn-confirm').closest('li').removeClass('full-width');
+            $('#btn-ignore').css('display', 'block');
+            $('#btn-ignore').attr('onclick', 'close_popup()');
+            $('#btn-confirm').attr('onclick', $(e).attr('action') + '()');
+            $('.zolo-popup').attr('onclick', '');
+            $('.zolo-popup').addClass('confirm');
+        } else {
+            $('.zolo-popup').removeClass('confirm');
+            $('#btn-ignore').css('display', 'none');
+            $('#btn-confirm').closest('li').addClass('full-width');
+            $('#btn-confirm').attr('onclick', 'close_popup()');
+        }
+
+        if(data_language){
+            var text = arr_languages[data_language]['vi'];
+            $('.zolo-popup p').text(text);
+        }
+
+        if(focus){
+            setCookie('focus_to', focus, 1);
+        }
+       
+       $('.zolo-popup').addClass('is-visible');
+    }
+    
+    function close_popup(){
+        $('.zolo-popup').removeClass('is-visible');
+        if(getCookie('focus_to')){
+            window.setTimeout(function() {
+                $('input[name="'+getCookie('focus_to')+'"]').focus();
+            }, 500);
+        }
+     }
+     jQuery(document).ready(function($){
+        $('.zolo-popup').on('click', function(event){
+            if($(event.target).is('.zolo-popup.is-visible') && !$(event.target).is('.zolo-popup.confirm')) {
+                event.preventDefault();
+                $(this).removeClass('is-visible');
+                if(getCookie('focus_to')){
+                    window.setTimeout(function() {
+                        $('input[name="'+getCookie('focus_to')+'"]').focus();
+                    }, 500);
+                }
+            }
+        });
+        $('#btn-confirm').on('click', function(){
+            $('.zolo-popup').removeClass('is-visible');
+            if(getCookie('focus_to')){
+                window.setTimeout(function() {
+                    $('input[name="'+getCookie('focus_to')+'"]').focus();
+                }, 500);
+            }
+            
+        });
+    });
+ 
