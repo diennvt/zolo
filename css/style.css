@@ -1,3 +1,4 @@
+@font-face { font-family: 'TmonMonsori'; src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_two@1.0/TmonMonsori.woff') format('woff'); font-weight: normal; font-style: normal; }
 * {
     margin: 0;
     padding: 0;
@@ -17,16 +18,6 @@ body {
     min-height: calc(100vh - 1010px)
 }
 
-.main-loader {
-    position: fixed;
-    left: 0px;
-    top: 0;
-    width: 100%;
-    height: 100%;
-    z-index: 9999;
-    background: url(http://www.downgraf.com/wp-content/uploads/2014/09/01-progress.gif) center no-repeat white;
-    background-size: 50px;
-}
 
 .full-screen {
     position: relative;
@@ -178,7 +169,7 @@ body {
 .loginPage .btn-next:before,
 .registerPage .btn-next:before {
     content: "";
-    background: url("../images/next.svg") no-repeat center bottom/cover;
+    background: url("../images/next2.svg") no-repeat center bottom/cover;
     position: absolute;
     /* left: 20px; */
     font-size: 1.6rem;
@@ -189,6 +180,7 @@ body {
     width: 50px;
     height: 50px;
     z-index: 1;
+    outline: none;
 }
 
 .loginPage .btn-next:after,
@@ -201,6 +193,7 @@ body {
     background: #ff5a77;
     right: 5vw;
     border-radius: 50%;
+    outline: none;
 }
 
 .zolo-form .zolo-input {
@@ -211,8 +204,6 @@ body {
     margin-bottom: 20px;
 }
 
-.zolo-form .btn-next:before,
-.zolo-form .btn-next:after {}
 
 @media screen and (max-width: 350px) {
     .footer {
@@ -496,7 +487,6 @@ body {
 .zolo-popup-container p {
     padding: 4em 1em 1.5em;
     text-align: center;
-    width: 80%;
     margin: 0 auto;
 }
 
@@ -574,3 +564,55 @@ body {
 
 
 /* popup */
+
+/* preloader */
+.zolo-preloader {
+    position: relative;
+    background: #ff5a77;
+
+  }
+
+  .box-preloader{
+    position: absolute;
+    top: 0; left: 0;
+    right: 0; bottom: 0;
+    height: 100vh; width: 100vw;
+    display: flex; 
+    justify-content: center;
+    align-items: center;
+  }
+  .box-preloader span{
+    position: relative;
+    top: 20px;
+    display: inline-block;
+    animation: bounce 0.3s ease infinite alternate;
+    font-family: 'TmonMonsori';
+    font-size: 60px;
+    color: #fff;
+    text-shadow: 0 1px #ccc, 0 2px #ccc, 0 3px #ccc, 0 4px #ccc, 0 5px #ccc, 0 6px 0 transparent, 0 7px transparent, 0 8px transparent, 0 9px transparent, 0 10px 10px rgba(0, 0, 0, 0.4);
+  }
+  @keyframes bounce{
+    100%{
+      top: -20px;
+      text-shadow: 0 1px #ccc, 
+                   0 2px #ccc, 
+                   0 3px #ccc, 
+                   0 4px #ccc, 
+                   0 5px #ccc,
+                   0 6px #ccc, 
+                   0 7px #ccc, 
+                   0 8px #ccc, 
+                   0 9px #ccc, 
+                   0 50px 25px rgba(0, 0, 0, 0.2);
+    }
+  }
+  .box-preloader span:nth-child(2){
+    animation-delay:0.1s;
+  }
+  .box-preloader span:nth-child(3){
+    animation-delay:0.2s;
+  }
+  .box-preloader span:nth-child(4){
+    animation-delay:0.3s;
+  }
+/* preloader */

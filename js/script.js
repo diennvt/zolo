@@ -11,12 +11,74 @@ var arr_languages = {
     "title-popup": { "vi": "Thông báo", "en": "Notification", "cn": "通知" },
     "btn-ignore": { "vi": "Hủy bỏ", "en": "Cancel", "cn": "取消" },
     "btn-confirm": { "vi": "Xác nhận", "en": "Confirm", "cn": "确认" },
+    "empty-otp": { "vi": "Vui lòng nhập mã xác minh.", "en": "Please enter verification code.", "cn": "请输入验证码。" },
+    "wrong-otp": { "vi": "Mã xác minh sai.", "en": "Wrong verification code.", "cn": "验证码错误。" },
+    "try-again": { "vi": "Có lỗi, vui lòng thử lại sau.", "en": "There was an error, please try again later.", "cn": "发生错误，请稍后再试。" },
+    "empty-password": { "vi": "Vui lòng nhập mật khẩu.", "en": "Please enter password.", "cn": "请输入密码。" },
+    "error-password": { "vi": "Mật khẩu nhập lại không giống với mật khẩu.", "en": "Re-password is not the same as the password.", "cn": "重新密码与密码不同。" },
+    "register-complete": { "vi": "Đăng ký thành công.", "en": "Sign up success.", "cn": "注册成功。" },
 };
 
-var $preLoader = $(".main-loader");
-$(window).load(function() {
-    $preLoader.fadeOut(""); // Animate loader off screen
+$(function() {
+    window.setTimeout(function() {
+        $('.zolo-preloader').hide();
+        $('#helloPage').show();
+        if(getCookie('language')){
+            if(getCookie('language') == 'vi'){
+                $('ul.group-language li.item-language:eq(0)').click();
+            } else if(getCookie('language') == 'en'){
+                $('ul.group-language li.item-language:eq(1)').click();
+            } else if(getCookie('language') == 'cn'){
+                $('ul.group-language li.item-language:eq(2)').click();
+            } 
+        } else {
+            $('ul.group-language li.item-language:eq(0)').click();
+        }
+        
+    }, 2700);
 });
+
+// Your web app's Firebase configuration
+var firebaseConfig = {
+    apiKey: 'AIzaSyCpZX_9ycBgituf2VvTksMPlsZEIKUTg6I',
+    authDomain: 'realtimechatroom-f2e99.firebaseapp.com',
+    databaseURL: 'https://realtimechatroom-f2e99.firebaseio.com',
+    projectId: 'realtimechatroom-f2e99',
+    storageBucket: 'realtimechatroom-f2e99.appspot.com',
+    messagingSenderId: '95831065723',
+    appId: '1:95831065723:web:58c9bf8204c0d760a20ede',
+    measurementId: 'G-Z7KY2K9QRK'
+};
+
+// Initialize Firebase
+firebase.initializeApp(firebaseConfig);
+firebase.analytics();
+firebase.messaging();
+
+window.onload = function() {
+    render();
+    $(".carousel").carousel({})
+};
+
+function render() {
+    window.recaptchaVerifier = new firebase.auth.RecaptchaVerifier('recaptcha-container');
+    recaptchaVerifier.render();
+}
+
+function phoneAuth() {
+    //get the number
+    var phonenumber = $('input[name="phonenumber"]').val().replace("0", "+84");
+    //phone number authentication function of firebase
+    //it takes two parameter first one is number,,,second one is recaptcha
+    firebase.auth().signInWithPhoneNumber(phonenumber, window.recaptchaVerifier).then(function(confirmationResult) {
+        //s is in lowercase
+        window.confirmationResult = confirmationResult;
+        coderesult = confirmationResult;
+    }).catch(function(error) {
+        alert(error.message);
+    });
+}
+
 
 function md5(str) {
     var str = CryptoJS.MD5(str).toString();
@@ -159,7 +221,7 @@ function register(self, page, step) {
         });
     } else if (step == 'verify_account') {
         if (!input_otp) {
-            alert('please enter otp code');
+            open_popup(null, 'empty-otp', 'otp');
             return false;
         }
         users.once('value').then(function(snapshot) {
@@ -176,21 +238,21 @@ function register(self, page, step) {
                     });
                     next(self, page);
                 }).catch(function(error) {
-                    alert("register failed");
+                    open_popup(null, 'wrong-otp', 'otp');
                 });
             } else {
-                alert("register failed");
+                open_popup(null, 'try-again', 'otp');
             }
         });
     } else if (step == 'add_password') {
 
         if (!password) {
-            alert('please enter password');
+            open_popup(null, 'empty-password', 'password');
             return false;
         }
 
         if (password != re_password) {
-            alert('re_password must be same password');
+            open_popup(null, 'error-repassword', 're_password');
             return false;
         }
 
@@ -198,7 +260,8 @@ function register(self, page, step) {
             //console.log(snapshot.val().username)
             var otp_ = (snapshot.val() && snapshot.val().otp) || null;
             var phonenumber_ = (snapshot.val() && snapshot.val().phonenumber) || null;
-            if (input_otp == otp_ && phonenumber == phonenumber_) {
+            var confirm = (snapshot.val() && snapshot.val().confirm) || null;
+            if (input_otp == otp_ && phonenumber == phonenumber_ && confirm == 'y') {
                 users.set({
                     'fullname': fullname,
                     'phonenumber': phonenumber,
@@ -206,13 +269,11 @@ function register(self, page, step) {
                     'confirm': 'y',
                     'password': password
                 });
-                alert("register complete");
+                open_popup(null, 'register-complete', null);
                 next(self, page);
                 $('input').val('');
-            } else if (input_otp == otp_) {
-                alert('otp wrong');
             } else {
-                alert("register failed");
+                open_popup(null, 'try-again', 'otp');
             }
         });
     }
@@ -265,7 +326,6 @@ function chooseLanguage(self, language) {
     $('.item-language').removeClass('active')
     $(self).addClass('active');
     setCookie('language', language, 3650);
-    console.log(language)
     $("[data-languages]").each(function() {
         var object = $(this).data('languages');
         var type_objext = $('[data-languages|="' + object + '"]')[0].nodeName;
@@ -326,7 +386,6 @@ function open_popup(e, data_language, focus) {
     }
 
     if (data_language) {
-        console.log(getCookie('language'))
         var text = arr_languages[data_language][getCookie('language')];
         $('.zolo-popup p').text(text);
     }
@@ -347,6 +406,7 @@ function close_popup() {
     }
 }
 jQuery(document).ready(function($) {
+    
     $('.zolo-popup').on('click', function(event) {
         if ($(event.target).is('.zolo-popup.is-visible') && !$(event.target).is('.zolo-popup.confirm')) {
             event.preventDefault();
