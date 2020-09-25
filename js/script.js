@@ -13,6 +13,11 @@ var arr_languages = {
     "btn-confirm": { "vi": "Xác nhận", "en": "Confirm", "cn": "确认" },
 };
 
+var $preLoader = $(".main-loader");
+$(window).load(function() {
+    $preLoader.fadeOut(""); // Animate loader off screen
+});
+
 function md5(str) {
     var str = CryptoJS.MD5(str).toString();
     return str;
