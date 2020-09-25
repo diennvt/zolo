@@ -4,10 +4,13 @@ var arr_languages = {
     "create-register": { "vi": "Tạo tài khoản", "en": "Create account", "cn": "创建帐号" },
     "full-name": { "vi": "Tên đầy đủ", "en": "Full name", "cn": "全名" },
     "enter-phonenumber": { "vi": "Nhập số điện thoại", "en": "Enter your phone number", "cn": "输入你的电话号码" },
-    "invalid-fullname": { "vi": "Tên không hợp lệ", "en": "Invalid fullname", "cn": "输入你的电话号码" },
-    "empty-fullname": { "vi": "Vui lòng nhập tên", "en": "Please enter fullname", "cn": "输入你的电话号码" },
-    "empty-phonenumber": { "vi": "Vui lòng nhập số điện thoại", "en": "Please enter phone number", "cn": "输入你的电话号码" },
-    "invalid-phonenumber": { "vi": "Số điện thoại không hợp lệ", "en": "Invalid phone number", "cn": "输入你的电话号码" },
+    "invalid-fullname": { "vi": "Tên không hợp lệ.", "en": "Invalid name.", "cn": "名称无效。" },
+    "empty-fullname": { "vi": "Vui lòng nhập tên của bạn.", "en": "Please enter your name.", "cn": "请输入你的名字。" },
+    "empty-phonenumber": { "vi": "Vui lòng nhập số điện thoại.", "en": "Please enter your phone number.", "cn": "请输入您的电话号码。" },
+    "invalid-phonenumber": { "vi": "Số điện thoại không hợp lệ.", "en": "Invalid phone number.", "cn": "无效的电话号码。" },
+    "title-popup": { "vi": "Thông báo", "en": "Notification", "cn": "通知" },
+    "btn-ignore": { "vi": "Hủy bỏ", "en": "Cancel", "cn": "取消" },
+    "btn-confirm": { "vi": "Xác nhận", "en": "Confirm", "cn": "确认" },
 };
 
 function md5(str) {
@@ -83,7 +86,7 @@ function register(self, page, step) {
         if (!fullname) {
             open_popup(null, 'empty-fullname', 'fullname');
             return false;
-        } else if(!fullname.match(/^[a-zA-ZÀÁÂÃÈÉÊÌÍÒÓÔÕÙÚĂĐĨŨƠàáâãèéêìíòóôõùúăđĩũơƯĂẠẢẤẦẨẪẬẮẰẲẴẶẸẺẼỀỀỂẾưăạảấầẩẫậắằẳẵặẹẻẽềềểếỄỆỈỊỌỎỐỒỔỖỘỚỜỞỠỢỤỦỨỪễệỉịọỏốồổỗộớờởỡợụủứừỬỮỰỲỴÝỶỸửữựỳỵỷỹ\s|_]+$/)) {
+        } else if (!fullname.match(/^[a-zA-ZÀÁÂÃÈÉÊÌÍÒÓÔÕÙÚĂĐĨŨƠàáâãèéêìíòóôõùúăđĩũơƯĂẠẢẤẦẨẪẬẮẰẲẴẶẸẺẼỀỀỂẾưăạảấầẩẫậắằẳẵặẹẻẽềềểếỄỆỈỊỌỎỐỒỔỖỘỚỜỞỠỢỤỦỨỪễệỉịọỏốồổỗộớờởỡợụủứừỬỮỰỲỴÝỶỸửữựỳỵỷỹ\s|_]+$/)) {
             open_popup(null, 'invalid-fullname', 'fullname');
             return false;
         } else {
@@ -96,8 +99,8 @@ function register(self, page, step) {
         if (!phonenumber) {
             open_popup(null, 'empty-phonenumber', 'phonenumber');
             return false;
-        /*} else if(phonenumber.toString().substring(0, 1) != '0' || !phonenumber.match(/^[0-9]*$/) || phonenumber.length > 11 || phonenumber.length < 10){*/
-        } else if(!phonenumber.match(/((09|03|07|08|05)+([0-9]{8})\b)/g)){
+            /*} else if(phonenumber.toString().substring(0, 1) != '0' || !phonenumber.match(/^[0-9]*$/) || phonenumber.length > 11 || phonenumber.length < 10){*/
+        } else if (!phonenumber.match(/((09|03|07|08|05)+([0-9]{8})\b)/g)) {
             open_popup(null, 'invalid-phonenumber', 'phonenumber');
             return false;
         }
@@ -122,7 +125,7 @@ function register(self, page, step) {
                 $('.resend-text').html('');
                 $('.resend-text').html('Gửi lại mã xác nhận sau <span class="resend-time">59</span> giây');
                 $('.resend-text').css('color', '');
-                
+
 
 
                 var interval = setTimeout(function() {
@@ -133,6 +136,7 @@ function register(self, page, step) {
                     }
                     $('input[name="otp"]').focus();
                     var time = 59;
+
                     function count_time() {
                         var timer = setInterval(function() {
                             $('.resend-time').text(time--);
@@ -144,7 +148,7 @@ function register(self, page, step) {
                             }
                         }, 1000);
                     }
-                    
+
                 }, 1);
             }
         });
@@ -158,7 +162,7 @@ function register(self, page, step) {
             var phonenumber_ = (snapshot.val() && snapshot.val().phonenumber) || null;
             console.log(phonenumber + '|' + phonenumber_)
             if (phonenumber == phonenumber_) {
-                coderesult.confirm(input_otp).then(function (result) {
+                coderesult.confirm(input_otp).then(function(result) {
                     users.set({
                         'fullname': fullname,
                         'phonenumber': phonenumber,
@@ -166,7 +170,7 @@ function register(self, page, step) {
                         'confirm': 'y'
                     });
                     next(self, page);
-                }).catch(function (error) {
+                }).catch(function(error) {
                     alert("register failed");
                 });
             } else {
@@ -255,7 +259,7 @@ function createRoom() {
 function chooseLanguage(self, language) {
     $('.item-language').removeClass('active')
     $(self).addClass('active');
-   
+    setCookie('language', language, 3650);
     $("[data-languages]").each(function() {
         var object = $(this).data('languages');
         var type_objext = $('[data-languages|="' + object + '"]')[0].nodeName;
@@ -299,62 +303,62 @@ function next(self, page) {
 }
 
 
-    //open popup
-    function open_popup(e, data_language, focus){
-        if($(e).attr("btn-type") == 'confirm'){
-            $('#btn-confirm').closest('li').removeClass('full-width');
-            $('#btn-ignore').css('display', 'block');
-            $('#btn-ignore').attr('onclick', 'close_popup()');
-            $('#btn-confirm').attr('onclick', $(e).attr('action') + '()');
-            $('.zolo-popup').attr('onclick', '');
-            $('.zolo-popup').addClass('confirm');
-        } else {
-            $('.zolo-popup').removeClass('confirm');
-            $('#btn-ignore').css('display', 'none');
-            $('#btn-confirm').closest('li').addClass('full-width');
-            $('#btn-confirm').attr('onclick', 'close_popup()');
-        }
-
-        if(data_language){
-            var text = arr_languages[data_language]['vi'];
-            $('.zolo-popup p').text(text);
-        }
-
-        if(focus){
-            setCookie('focus_to', focus, 1);
-        }
-       
-       $('.zolo-popup').addClass('is-visible');
+//open popup
+function open_popup(e, data_language, focus) {
+    if ($(e).attr("btn-type") == 'confirm') {
+        $('#btn-confirm').closest('li').removeClass('full-width');
+        $('#btn-ignore').css('display', 'block');
+        $('#btn-ignore').attr('onclick', 'close_popup()');
+        $('#btn-confirm').attr('onclick', $(e).attr('action') + '()');
+        $('.zolo-popup').attr('onclick', '');
+        $('.zolo-popup').addClass('confirm');
+    } else {
+        $('.zolo-popup').removeClass('confirm');
+        $('#btn-ignore').css('display', 'none');
+        $('#btn-confirm').closest('li').addClass('full-width');
+        $('#btn-confirm').attr('onclick', 'close_popup()');
     }
-    
-    function close_popup(){
-        $('.zolo-popup').removeClass('is-visible');
-        if(getCookie('focus_to')){
-            window.setTimeout(function() {
-                $('input[name="'+getCookie('focus_to')+'"]').focus();
-            }, 500);
-        }
-     }
-     jQuery(document).ready(function($){
-        $('.zolo-popup').on('click', function(event){
-            if($(event.target).is('.zolo-popup.is-visible') && !$(event.target).is('.zolo-popup.confirm')) {
-                event.preventDefault();
-                $(this).removeClass('is-visible');
-                if(getCookie('focus_to')){
-                    window.setTimeout(function() {
-                        $('input[name="'+getCookie('focus_to')+'"]').focus();
-                    }, 500);
-                }
-            }
-        });
-        $('#btn-confirm').on('click', function(){
-            $('.zolo-popup').removeClass('is-visible');
-            if(getCookie('focus_to')){
+
+    if (data_language) {
+        console.log(getCookie('language'))
+        var text = arr_languages[data_language]['en'];
+        $('.zolo-popup p').text(text);
+    }
+
+    if (focus) {
+        setCookie('focus_to', focus, 1);
+    }
+
+    $('.zolo-popup').addClass('is-visible');
+}
+
+function close_popup() {
+    $('.zolo-popup').removeClass('is-visible');
+    if (getCookie('focus_to')) {
+        window.setTimeout(function() {
+            $('input[name="' + getCookie('focus_to') + '"]').focus();
+        }, 500);
+    }
+}
+jQuery(document).ready(function($) {
+    $('.zolo-popup').on('click', function(event) {
+        if ($(event.target).is('.zolo-popup.is-visible') && !$(event.target).is('.zolo-popup.confirm')) {
+            event.preventDefault();
+            $(this).removeClass('is-visible');
+            if (getCookie('focus_to')) {
                 window.setTimeout(function() {
-                    $('input[name="'+getCookie('focus_to')+'"]').focus();
+                    $('input[name="' + getCookie('focus_to') + '"]').focus();
                 }, 500);
             }
-            
-        });
+        }
     });
- 
+    $('#btn-confirm').on('click', function() {
+        $('.zolo-popup').removeClass('is-visible');
+        if (getCookie('focus_to')) {
+            window.setTimeout(function() {
+                $('input[name="' + getCookie('focus_to') + '"]').focus();
+            }, 500);
+        }
+
+    });
+});

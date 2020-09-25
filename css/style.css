@@ -428,17 +428,18 @@ body {
     -webkit-transition: opacity 0.3s 0s, visibility 0s 0.3s;
     -moz-transition: opacity 0.3s 0s, visibility 0s 0.3s;
     transition: opacity 0.3s 0s, visibility 0s 0.3s;
-  }
-  .zolo-popup.is-visible {
+}
+
+.zolo-popup.is-visible {
     opacity: 1;
     visibility: visible;
     -webkit-transition: opacity 0.3s 0s, visibility 0s 0s;
     -moz-transition: opacity 0.3s 0s, visibility 0s 0s;
     transition: opacity 0.3s 0s, visibility 0s 0s;
     z-index: 2;
-  }
-  
-  .zolo-popup-container {
+}
+
+.zolo-popup-container {
     position: relative;
     width: 85%;
     max-width: 400px;
@@ -461,17 +462,18 @@ body {
     -moz-transition-duration: 0.3s;
     transition-duration: 0.3s;
     top: 20%;
-  }
-  .zolo-popup-container .zolo-popup-header{
+}
+
+.zolo-popup-container .zolo-popup-header {
     position: absolute;
     display: block;
     width: 100%;
     font-weight: 600;
     font-size: 22px;
     margin: 15px auto;
-  }
+}
 
-  .zolo-popup-container .zolo-popup-header:after {
+.zolo-popup-container .zolo-popup-header:after {
     content: "";
     display: block;
     margin: 0 auto;
@@ -479,25 +481,27 @@ body {
     padding-top: 10px;
     border-bottom: 1px solid #c3c3c3;
 }
-  .zolo-popup-container p {
-    padding: 3em 1em;
+
+.zolo-popup-container p {
+    padding: 4em 1em 1.5em;
     text-align: center;
     width: 80%;
     margin: 0 auto;
-  }
-  .zolo-popup-container .zolo-buttons:after {
+}
+
+.zolo-popup-container .zolo-buttons:after {
     content: "";
     display: table;
     clear: both;
-  }
-  .zolo-popup-container .zolo-buttons li {
+}
+
+.zolo-popup-container .zolo-buttons li {
     float: left;
     width: 50%;
     list-style: none;
-  }
+}
 
- 
-  .zolo-popup-container .zolo-buttons button {
+.zolo-popup-container .zolo-buttons button {
     width: 90%;
     display: block;
     height: 60px;
@@ -513,45 +517,49 @@ body {
     border-radius: 6px;
     margin: 0 auto;
     margin-bottom: 10px;
+}
 
-  }
-  .zolo-popup-container .zolo-buttons li:last-child button {
+.zolo-popup-container .zolo-buttons li:last-child button {
     background: #ff5a77;
     margin-left: 6px !important;
-  }
-  .no-touch .zolo-popup-container .zolo-buttons li:last-child button:hover {
-    background-color:#ff5a77;
-  }
-  .zolo-popup-container .zolo-buttons li:first-child button {
+}
+
+.no-touch .zolo-popup-container .zolo-buttons li:last-child button:hover {
+    background-color: #ff5a77;
+}
+
+.zolo-popup-container .zolo-buttons li:first-child button {
     background: #b6bece;
     margin-right: 6px !important;
-  }
-  .no-touch .zolo-popup-container .zolo-buttons li:first-child button:hover {
-    background-color: #c5ccd8;
-    
-  }
+}
 
-  .is-visible .zolo-popup-container {
+.no-touch .zolo-popup-container .zolo-buttons li:first-child button:hover {
+    background-color: #c5ccd8;
+}
+
+.is-visible .zolo-popup-container {
     -webkit-transform: translateY(0);
     -moz-transform: translateY(0);
     -ms-transform: translateY(0);
     -o-transform: translateY(0);
     transform: translateY(0);
-  }
+}
 
-  .zolo-popup-container .zolo-buttons li.full-width{
+.zolo-popup-container .zolo-buttons li.full-width {
     width: 100% !important;
-  }
-  .zolo-popup-container .zolo-buttons li.full-width:last-child button{
+}
+
+.zolo-popup-container .zolo-buttons li.full-width:last-child button {
     margin: 0 auto !important;
     margin-bottom: 10px !important;
     width: 94% !important;
-  }
+}
 
-  @media only screen and (min-width: 1170px) {
+@media only screen and (min-width: 1170px) {
     .zolo-popup-container {
-      margin: 8em auto;
+        margin: 8em auto;
     }
-  }
+}
+
 
 /* popup */
