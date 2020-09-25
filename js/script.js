@@ -260,6 +260,7 @@ function chooseLanguage(self, language) {
     $('.item-language').removeClass('active')
     $(self).addClass('active');
     setCookie('language', language, 3650);
+    console.log(language)
     $("[data-languages]").each(function() {
         var object = $(this).data('languages');
         var type_objext = $('[data-languages|="' + object + '"]')[0].nodeName;
@@ -321,7 +322,7 @@ function open_popup(e, data_language, focus) {
 
     if (data_language) {
         console.log(getCookie('language'))
-        var text = arr_languages[data_language]['en'];
+        var text = arr_languages[data_language][getCookie('language')];
         $('.zolo-popup p').text(text);
     }
 
