@@ -1,4 +1,9 @@
-@font-face { font-family: 'TmonMonsori'; src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_two@1.0/TmonMonsori.woff') format('woff'); font-weight: normal; font-style: normal; }
+@font-face { 
+    font-family: 'TmonMonsori'; 
+    src: url('../fonts/TmonMonsori.woff') format('woff'); 
+    font-weight: normal;
+    font-style: normal;
+ }
 * {
     margin: 0;
     padding: 0;
@@ -8,7 +13,7 @@
 html {
     background-color: #ffffff;
     color: #5a5a5a;
-    font-family: 'Lato', sans-serif;
+    font-family: 'TmonMonsori', sans-serif;
     font-size: 20px;
     text-rendering: optimizeLegibility;
     height: 100%;
