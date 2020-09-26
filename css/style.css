@@ -1,4 +1,10 @@
-@font-face { font-family: 'TmonMonsori'; src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_two@1.0/TmonMonsori.woff') format('woff'); font-weight: normal; font-style: normal; }
+@font-face {
+    font-family: 'TmonMonsori';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_two@1.0/TmonMonsori.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
 * {
     margin: 0;
     padding: 0;
@@ -17,7 +23,6 @@ html {
 body {
     min-height: calc(100vh - 1010px)
 }
-
 
 .full-screen {
     position: relative;
@@ -204,7 +209,6 @@ body {
     margin-bottom: 20px;
 }
 
-
 @media screen and (max-width: 350px) {
     .footer {
         padding-top: 0;
@@ -310,6 +314,7 @@ body {
 }
 
 .Control-label--showPassword,
+.Control-label--showPassword2,
 .Control-label--showRePassword {
     width: 32px;
     position: absolute;
@@ -322,6 +327,10 @@ body {
 
 .Control-label--showRePassword {
     margin-top: 50px;
+}
+
+.Control-label--showPassword2 {
+    top: 48px;
 }
 
 .ControlInput--email:valid~.input-password:valid,
@@ -401,7 +410,8 @@ body {
 
 /* hide - show input password */
 
-.resend-text {
+.resend-text,
+.forgot-pw-text {
     display: block;
     position: absolute;
     width: 90%;
@@ -413,6 +423,11 @@ body {
 
 .resend-time {
     color: #ff5a77
+}
+
+.forgot-pw-text {
+    margin-top: 4px;
+    color: #ff5a77;
 }
 
 
@@ -565,23 +580,28 @@ body {
 
 /* popup */
 
+
 /* preloader */
+
 .zolo-preloader {
     position: relative;
     background: #ff5a77;
+}
 
-  }
-
-  .box-preloader{
+.box-preloader {
     position: absolute;
-    top: 0; left: 0;
-    right: 0; bottom: 0;
-    height: 100vh; width: 100vw;
-    display: flex; 
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: 100vh;
+    width: 100vw;
+    display: flex;
     justify-content: center;
     align-items: center;
-  }
-  .box-preloader span{
+}
+
+.box-preloader span {
     position: relative;
     top: 20px;
     display: inline-block;
@@ -590,29 +610,26 @@ body {
     font-size: 60px;
     color: #fff;
     text-shadow: 0 1px #ccc, 0 2px #ccc, 0 3px #ccc, 0 4px #ccc, 0 5px #ccc, 0 6px 0 transparent, 0 7px transparent, 0 8px transparent, 0 9px transparent, 0 10px 10px rgba(0, 0, 0, 0.4);
-  }
-  @keyframes bounce{
-    100%{
-      top: -20px;
-      text-shadow: 0 1px #ccc, 
-                   0 2px #ccc, 
-                   0 3px #ccc, 
-                   0 4px #ccc, 
-                   0 5px #ccc,
-                   0 6px #ccc, 
-                   0 7px #ccc, 
-                   0 8px #ccc, 
-                   0 9px #ccc, 
-                   0 50px 25px rgba(0, 0, 0, 0.2);
+}
+
+@keyframes bounce {
+    100% {
+        top: -20px;
+        text-shadow: 0 1px #ccc, 0 2px #ccc, 0 3px #ccc, 0 4px #ccc, 0 5px #ccc, 0 6px #ccc, 0 7px #ccc, 0 8px #ccc, 0 9px #ccc, 0 50px 25px rgba(0, 0, 0, 0.2);
     }
-  }
-  .box-preloader span:nth-child(2){
-    animation-delay:0.1s;
-  }
-  .box-preloader span:nth-child(3){
-    animation-delay:0.2s;
-  }
-  .box-preloader span:nth-child(4){
-    animation-delay:0.3s;
-  }
+}
+
+.box-preloader span:nth-child(2) {
+    animation-delay: 0.1s;
+}
+
+.box-preloader span:nth-child(3) {
+    animation-delay: 0.2s;
+}
+
+.box-preloader span:nth-child(4) {
+    animation-delay: 0.3s;
+}
+
+
 /* preloader */
