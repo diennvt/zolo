@@ -17,24 +17,25 @@ var arr_languages = {
     "empty-password": { "vi": "Vui lòng nhập mật khẩu.", "en": "Please enter password.", "cn": "请输入密码。" },
     "error-password": { "vi": "Mật khẩu nhập lại không giống với mật khẩu.", "en": "Re-password is not the same as the password.", "cn": "重新密码与密码不同。" },
     "register-complete": { "vi": "Đăng ký thành công.", "en": "Sign up success.", "cn": "注册成功。" },
+    "phonenumber-registered": { "vi": "Số điện thoại đã được đăng ký.", "en": "Phone number already registered.", "cn": "电话号码已注册。" },
 };
 
 $(function() {
     window.setTimeout(function() {
-        $('.zolo-preloader').hide();
-        $('#helloPage').show();
-        if(getCookie('language')){
-            if(getCookie('language') == 'vi'){
+        // $('.zolo-preloader').hide();
+        // $('#helloPage').show();
+        if (getCookie('language')) {
+            if (getCookie('language') == 'vi') {
                 $('ul.group-language li.item-language:eq(0)').click();
-            } else if(getCookie('language') == 'en'){
+            } else if (getCookie('language') == 'en') {
                 $('ul.group-language li.item-language:eq(1)').click();
-            } else if(getCookie('language') == 'cn'){
+            } else if (getCookie('language') == 'cn') {
                 $('ul.group-language li.item-language:eq(2)').click();
-            } 
+            }
         } else {
             $('ul.group-language li.item-language:eq(0)').click();
         }
-        
+
     }, 2700);
 });
 
@@ -175,7 +176,7 @@ function register(self, page, step) {
             var phonenumber_ = (snapshot.val() && snapshot.val().phonenumber) || null;
             var confirm = (snapshot.val() && snapshot.val().confirm) || null;
             if (phonenumber == phonenumber_ && confirm == 'y') {
-                alert('this phonenumber was registered');
+                open_popup(null, 'phonenumber-registered', 'phonenumber');
             } else {
                 users.set({
                     'fullname': fullname,
@@ -199,7 +200,6 @@ function register(self, page, step) {
                     if ($('#registerPage3').css('display') == 'block') {
                         clearInterval(interval);
                         count_time();
-                        console.log(32132131)
                     }
                     $('input[name="otp"]').focus();
                     var time = 59;
@@ -267,7 +267,7 @@ function register(self, page, step) {
                     'phonenumber': phonenumber,
                     'otp': otp_,
                     'confirm': 'y',
-                    'password': password
+                    'password': md5(password)
                 });
                 open_popup(null, 'register-complete', null);
                 next(self, page);
@@ -285,23 +285,25 @@ function resend_otp(self, page, step) {
 }
 
 function login() {
-    var username = document.getElementById('login_username').value;
+    var phonenumber = $('input[name="phonenumber2"]').val();
     var password = document.getElementById('login_password').value;
     var encode_pw = md5(password);
     var users = firebase.database().ref('/users/' + phonenumber);
     var token = createToken(32);
     users.once('value').then(function(snapshot) {
-        var check_full_name = (snapshot.val() && snapshot.val().full_name) || null;
-        var check_username = (snapshot.val() && snapshot.val().username) || null;
+        var otp = (snapshot.val() && snapshot.val().otp) || null;
+        var fullname = (snapshot.val() && snapshot.val().fullname) || null;
         var check_password = (snapshot.val() && snapshot.val().password) || null;
         if (encode_pw != check_password) {
             alert('login failed');
         } else {
             users.set({
-                'full_name': check_full_name,
-                'username': check_username,
-                'password': check_password,
-                'token': token
+                'fullname': fullname,
+                'phonenumber': phonenumber,
+                'password': encode_pw,
+                'token': token,
+                'confirm': 'y',
+                'otp': otp
             });
             alert('login success');
             setCookie('username', check_username, 1);
@@ -406,7 +408,7 @@ function close_popup() {
     }
 }
 jQuery(document).ready(function($) {
-    
+
     $('.zolo-popup').on('click', function(event) {
         if ($(event.target).is('.zolo-popup.is-visible') && !$(event.target).is('.zolo-popup.confirm')) {
             event.preventDefault();
