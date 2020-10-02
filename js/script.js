@@ -22,8 +22,8 @@ var arr_languages = {
 
 $(function() {
     window.setTimeout(function() {
-        // $('.zolo-preloader').hide();
-        // $('#helloPage').show();
+        $('.zolo-preloader').hide();
+        $('#helloPage').show();
         if (getCookie('language')) {
             if (getCookie('language') == 'vi') {
                 $('ul.group-language li.item-language:eq(0)').click();
@@ -137,7 +137,7 @@ function eraseCookie(name) {
 
 function register(self, page, step) {
     var fullname = $('input[name="fullname"]').val();
-    var phonenumber = $('input[name="phonenumber"]').val();
+    var phonenumber = $('input[name="phonenumber2"]').val();
     var input_otp = $('input[name="otp"]').val();
     var password = $('input[name="password"]').val();
     var re_password = $('input[name="re_password"]').val();
@@ -149,7 +149,7 @@ function register(self, page, step) {
         next(self, page);
     } else if (step == 'write_name') {
         window.setTimeout(function() {
-            $('input[name="phonenumber"]').focus();
+            $('input[name="phonenumber2"]').focus();
         }, 500);
         if (!fullname) {
             open_popup(null, 'empty-fullname', 'fullname');
@@ -285,7 +285,7 @@ function resend_otp(self, page, step) {
 }
 
 function login() {
-    var phonenumber = $('input[name="phonenumber2"]').val();
+    var phonenumber = $('input[name="phonenumber"]').val();
     var password = document.getElementById('login_password').value;
     var encode_pw = md5(password);
     var users = firebase.database().ref('/users/' + phonenumber);
